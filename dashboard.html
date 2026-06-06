@@ -24,17 +24,44 @@ body{
 
 .card{
 
-    background:white;
+    width:420px;
 
     padding:40px;
 
-    border-radius:20px;
+    border-radius:32px;
+
+    background:rgba(255,255,255,0.12);
+
+    border:1px solid rgba(255,255,255,0.2);
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 8px 32px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.2);
 
     text-align:center;
 }
 
 h1{
     margin-bottom:20px;
+}
+
+textarea{
+
+    width:100%;
+
+    height:140px;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:16px;
+
+    resize:none;
+
+    font-family:inherit;
 }
 
 .btn{
@@ -237,14 +264,7 @@ Caricamento...
 
 <textarea
 id="request"
-placeholder="Scrivi qui la tua richiesta..."
-style="
-width:300px;
-height:120px;
-padding:12px;
-border-radius:12px;
-resize:none;
-">
+placeholder="Scrivi qui la tua richiesta...">
 </textarea>
 
 <br><br>
