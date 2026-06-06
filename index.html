@@ -88,6 +88,36 @@ p{
     font-size:1.2rem;
 }
 
+.btn{
+    display:inline-block;
+    margin-top:30px;
+    padding:14px 30px;
+
+    text-decoration:none;
+    color:white;
+
+    font-weight:600;
+    font-size:1rem;
+
+    background:rgba(255,255,255,0.15);
+
+    border:1px solid rgba(255,255,255,0.3);
+
+    border-radius:14px;
+
+    backdrop-filter:blur(10px);
+
+    transition:all 0.25s ease;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+
+    background:rgba(255,255,255,0.25);
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
 .particle{
     position:absolute;
     border-radius:50%;
@@ -111,6 +141,9 @@ p{
 <div class="card">
     <h1>Ciao! 👋</h1>
     <p>Benvenuto nel mio piccolo angolo di Internet.</p>
+     <a href="login.html" class="btn">
+        Continua
+    </a>
 </div>
 
 <script>
