@@ -49,7 +49,15 @@ import {
 getAuth,
 onAuthStateChanged
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";z
+
+import {
+getFirestore,
+collection,
+addDoc,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAx6IxGI8jBh8I1eGq-9HJN4GRbJ1I0O8o",
@@ -65,6 +73,10 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
+const db = getFirestore(app);
+
+let currentUser = null;
+
 onAuthStateChanged(auth, (user) => {
 
     if(!user){
@@ -73,6 +85,8 @@ onAuthStateChanged(auth, (user) => {
     "login.html";
 
 }else{
+
+    currentUser = user;
 
     document.getElementById(
         "userEmail"
@@ -83,17 +97,85 @@ onAuthStateChanged(auth, (user) => {
 
 });
 
+window.sendRequest = async function(){
+
+if(!currentUser){
+    return;
+}
+
+const requestText =
+document.getElementById(
+    "request"
+).value;
+
+if(requestText.trim() === ""){
+    return;
+}
+
+try{
+
+await addDoc(
+collection(db, "requests"),
+{
+    userEmail: currentUser.email,
+    request: requestText,
+    createdAt: serverTimestamp()
+}
+);
+
+document.getElementById(
+    "status"
+).innerText =
+"Richiesta inviata!";
+
+document.getElementById(
+    "request"
+).value = "";
+
+}catch(error){
+
+document.getElementById(
+    "status"
+).innerText =
+error.message;
+
+}
+
+}
+
 </script>
 
 <body>
 
 <div class="card">
 
-<h1>Accesso effettuato 🎉</h1>
+<h1>Le tue richieste</h1>
 
 <p id="userEmail">
 Caricamento...
 </p>
+
+<br>
+
+<textarea
+id="request"
+placeholder="Scrivi qui la tua richiesta..."
+style="
+width:300px;
+height:120px;
+padding:12px;
+border-radius:12px;
+resize:none;
+">
+</textarea>
+
+<br><br>
+
+<button onclick="sendRequest()">
+Invia richiesta
+</button>
+
+<p id="status"></p>
 
 </div>
 
