@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+
+<style>
+
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial,sans-serif;
+
+    background:linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+}
+
+.card{
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    text-align:center;
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+</style>
+</head>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAx6IxGI8jBh8I1eGq-9HJN4GRbJ1I0O8o",
+  authDomain: "vincenzo-requests.firebaseapp.com",
+  projectId: "vincenzo-requests",
+  storageBucket: "vincenzo-requests.firebasestorage.app",
+  messagingSenderId: "1067496408724",
+  appId: "1:1067496408724:web:998495fabd15665c361681",
+  measurementId: "G-X7H501Q0JL"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+
+    if(!user){
+
+    window.location.href =
+    "login.html";
+
+}else{
+
+    document.getElementById(
+        "userEmail"
+    ).innerText =
+    user.email;
+
+}
+
+});
+
+</script>
+
+<body>
+
+<div class="card">
+
+<h1>Accesso effettuato 🎉</h1>
+
+<p id="userEmail">
+Caricamento...
+</p>
+
+</div>
+
+</body>
+</html>

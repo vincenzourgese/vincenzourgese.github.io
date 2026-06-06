@@ -7,6 +7,7 @@
 <title>Login</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -18,17 +19,19 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family:Arial,sans-serif;
 
     background:linear-gradient(
         135deg,
         #4f46e5,
         #7c3aed
     );
+
+    font-family:Arial,sans-serif;
 }
 
 .card{
-    width:380px;
+
+    width:400px;
 
     padding:40px;
 
@@ -47,6 +50,7 @@ h2{
 }
 
 input{
+
     width:100%;
 
     padding:14px;
@@ -59,6 +63,7 @@ input{
 }
 
 button{
+
     width:100%;
 
     padding:14px;
@@ -70,36 +75,167 @@ button{
     cursor:pointer;
 
     font-weight:bold;
+
+    margin-top:10px;
 }
 
-.link{
-    margin-top:20px;
+#message{
+
+    margin-top:15px;
+
     color:white;
 }
+
 </style>
 </head>
-
 <body>
 
 <div class="card">
 
-    <h2>Accedi</h2>
+<h2>Accedi o Registrati</h2>
 
-    <input
-        type="email"
-        placeholder="Email">
+<input
+id="email"
+type="email"
+placeholder="Email">
 
-    <input
-        type="password"
-        placeholder="Password">
+<input
+id="password"
+type="password"
+placeholder="Password">
 
-    <button>Login</button>
+<button onclick="register()">
+Registrati
+</button>
 
-    <div class="link">
-        Non hai un account? Registrati
-    </div>
+<button onclick="login()">
+Login
+</button>
+
+<button onclick="googleLogin()">
+Continua con Google
+</button>
+
+<div id="message"></div>
 
 </div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+GoogleAuthProvider,
+signInWithPopup
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/*
+INCOLLA QUI LA CONFIGURAZIONE FIREBASE
+*/
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAx6IxGI8jBh8I1eGq-9HJN4GRbJ1I0O8o",
+  authDomain: "vincenzo-requests.firebaseapp.com",
+  projectId: "vincenzo-requests",
+  storageBucket: "vincenzo-requests.firebasestorage.app",
+  messagingSenderId: "1067496408724",
+  appId: "1:1067496408724:web:998495fabd15665c361681",
+  measurementId: "G-X7H501Q0JL"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const provider = new GoogleAuthProvider();
+
+window.register = async function(){
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+try{
+
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+document.getElementById("message")
+.innerText =
+"Registrazione completata!";
+
+}catch(error){
+
+document.getElementById("message")
+.innerText =
+error.message;
+
+}
+
+}
+
+window.login = async function(){
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+try{
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+window.location.href =
+"dashboard.html";
+
+}catch(error){
+
+document.getElementById("message")
+.innerText =
+error.message;
+
+}
+
+}
+
+window.googleLogin = async function(){
+
+try{
+
+await signInWithPopup(
+auth,
+provider
+);
+
+window.location.href =
+"dashboard.html";
+
+}catch(error){
+
+document.getElementById("message")
+.innerText =
+error.message;
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
