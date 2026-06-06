@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Login</title>
+<title>Registrazione</title>
 
 <style>
 
@@ -15,9 +16,13 @@
 }
 
 body{
+
     height:100vh;
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
 
     background:linear-gradient(
@@ -31,13 +36,13 @@ body{
 
 .card{
 
-    width:400px;
+    width:420px;
 
     padding:40px;
 
     border-radius:24px;
 
-    background:rgba(255,255,255,0.12);
+    background:rgba(255,255,255,.12);
 
     backdrop-filter:blur(20px);
 
@@ -45,7 +50,9 @@ body{
 }
 
 h2{
+
     color:white;
+
     margin-bottom:25px;
 }
 
@@ -75,8 +82,6 @@ button{
     cursor:pointer;
 
     font-weight:bold;
-
-    margin-top:10px;
 }
 
 #message{
@@ -87,12 +92,13 @@ button{
 }
 
 </style>
+
 </head>
 <body>
 
 <div class="card">
 
-<h2>Accedi o Registrati</h2>
+<h2>Crea un account</h2>
 
 <input
 id="email"
@@ -104,29 +110,9 @@ id="password"
 type="password"
 placeholder="Password">
 
-<button onclick="login()">
-Login
-</button>
-
-<button onclick="googleLogin()">
-Continua con Google
-</button>
-
-<p style="margin-top:20px;color:white;">
-Non hai un account?
-</p>
-
-<a
-href="register.html"
-style="
-display:inline-block;
-margin-top:10px;
-color:white;
-font-weight:bold;
-text-decoration:none;
-">
+<button onclick="register()">
 Registrati
-</a>
+</button>
 
 <div id="message"></div>
 
@@ -139,16 +125,9 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 getAuth,
-createUserWithEmailAndPassword,
-signInWithEmailAndPassword,
-GoogleAuthProvider,
-signInWithPopup
+createUserWithEmailAndPassword
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-/*
-INCOLLA QUI LA CONFIGURAZIONE FIREBASE
-*/
 
 const firebaseConfig = {
   apiKey: "AIzaSyAx6IxGI8jBh8I1eGq-9HJN4GRbJ1I0O8o",
@@ -164,9 +143,7 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
-const provider = new GoogleAuthProvider();
-
-window.login = async function(){
+window.register = async function(){
 
 const email =
 document.getElementById("email").value;
@@ -176,41 +153,20 @@ document.getElementById("password").value;
 
 try{
 
-await signInWithEmailAndPassword(
+await createUserWithEmailAndPassword(
 auth,
 email,
 password
 );
 
 window.location.href =
-"dashboard.html";
+"login.html";
 
 }catch(error){
 
-document.getElementById("message")
-.innerText =
-error.message;
-
-}
-
-}
-
-window.googleLogin = async function(){
-
-try{
-
-await signInWithPopup(
-auth,
-provider
-);
-
-window.location.href =
-"dashboard.html";
-
-}catch(error){
-
-document.getElementById("message")
-.innerText =
+document.getElementById(
+"message"
+).innerText =
 error.message;
 
 }

@@ -37,6 +37,41 @@ h1{
     margin-bottom:20px;
 }
 
+.btn{
+
+    margin-top:20px;
+
+    padding:14px 28px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
+}
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 12px 24px rgba(79,70,229,.3);
+}
+
 </style>
 </head>
 
@@ -172,8 +207,8 @@ collection(db, "requests"),
 }
 );
 
-document.getElementById("status")
-.innerText = "Richiesta inviata!";
+window.location.href =
+"thankyou.html";
 
 }catch(error){
 
@@ -214,8 +249,8 @@ resize:none;
 
 <br><br>
 
-<button id="sendBtn">
-    Invia richiesta
+<button id="sendBtn" class="btn">
+    🚀 Invia richiesta
 </button>
 
 <p id="status"></p>
