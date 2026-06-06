@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin</title>
+
+<style>
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    padding:40px;
+
+    font-family:Inter, Arial, sans-serif;
+
+    background:linear-gradient(
+        -45deg,
+        #4f46e5,
+        #7c3aed,
+        #06b6d4,
+        #2563eb
+    );
+
+    background-size:400% 400%;
+
+    animation:gradientMove 12s ease infinite;
+}
+
+@keyframes gradientMove{
+
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.card{
+
+    max-width:1000px;
+
+    margin:auto;
+
+    padding:40px;
+
+    border-radius:32px;
+
+    background:rgba(255,255,255,0.12);
+
+    border:1px solid rgba(255,255,255,0.2);
+
+    backdrop-filter:blur(20px);
+
+    color:white;
+}
+
+.request{
+
+    margin-top:20px;
+
+    padding:20px;
+
+    border-radius:16px;
+
+    background:rgba(255,255,255,0.12);
+}
+
+.email{
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>📋 Richieste ricevute</h1>
+
+<div id="requestsList">
+
+Caricamento...
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs,
+query,
+orderBy
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyAx6IxGI8jBh8I1eGq-9HJN4GRbJ1I0O8o",
+  authDomain: "vincenzo-requests.firebaseapp.com",
+  projectId: "vincenzo-requests",
+  storageBucket: "vincenzo-requests.firebasestorage.app",
+  messagingSenderId: "1067496408724",
+  appId: "1:1067496408724:web:998495fabd15665c361681",
+  measurementId: "G-X7H501Q0JL"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const requestsList =
+document.getElementById(
+"requestsList"
+);
+
+async function loadRequests(){
+
+const q = query(
+collection(db,"requests"),
+orderBy("createdAt","desc")
+);
+
+const snapshot =
+await getDocs(q);
+
+requestsList.innerHTML = "";
+
+snapshot.forEach((doc) => {
+
+const data = doc.data();
+
+requestsList.innerHTML += `
+
+<div class="request">
+
+<div class="email">
+
+${data.userEmail}
+
+</div>
+
+<div>
+
+${data.request}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+loadRequests();
+
+</script>
+
+</body>
+</html>
