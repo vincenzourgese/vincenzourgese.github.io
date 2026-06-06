@@ -202,6 +202,7 @@ collection(db, "requests"),
 {
     userEmail: currentUser.email,
     request: requestText,
+    status: "pending",
     createdAt: serverTimestamp()
 }
 );

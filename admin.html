@@ -74,6 +74,15 @@ body{
     margin-bottom:10px;
 }
 
+.date{
+
+    opacity:.7;
+
+    font-size:14px;
+
+    margin-bottom:12px;
+}
+
 </style>
 
 </head>
@@ -102,9 +111,17 @@ getFirestore,
 collection,
 getDocs,
 query,
-orderBy
+orderBy,
+doc,
+updateDoc
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+getAuth,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
 
@@ -121,6 +138,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+
+const auth = getAuth(app);
+
+const ADMIN_EMAIL =
+"vincenzourgese1@gmail.com";
 
 const requestsList =
 document.getElementById(
@@ -143,21 +165,58 @@ snapshot.forEach((doc) => {
 
 const data = doc.data();
 
+const requestId = doc.id;
+
+let dateText = "";
+
+if(data.createdAt){
+
+    dateText =
+    data.createdAt
+    .toDate()
+    .toLocaleString("it-IT");
+
+}
+
 requestsList.innerHTML += `
 
 <div class="request">
 
 <div class="email">
+👤 ${data.userEmail}
+</div>
 
-${data.userEmail}
+<div class="date">
+📅 ${dateText}
+</div>
 
+<div style="margin-bottom:15px;">
+${data.request}
 </div>
 
 <div>
 
-${data.request}
+${
+data.status === "completed"
+?
+"🟢 Completata"
+:
+"🟡 In attesa"
+}
 
 </div>
+
+<br>
+
+${
+data.status !== "completed"
+?
+`<button onclick="completeRequest('${requestId}')">
+✅ Completa
+</button>`
+:
+""
+}
 
 </div>
 
@@ -167,7 +226,43 @@ ${data.request}
 
 }
 
-loadRequests();
+onAuthStateChanged(auth,(user)=>{
+
+    if(!user){
+
+        window.location.href =
+        "login.html";
+
+        return;
+    }
+
+    if(user.email !== ADMIN_EMAIL){
+
+        window.location.href =
+        "index.html";
+
+        return;
+    }
+
+
+
+    loadRequests();
+
+});
+
+window.completeRequest =
+async function(id){
+
+await updateDoc(
+doc(db,"requests",id),
+{
+    status:"completed"
+}
+);
+
+location.reload();
+
+}
 
 </script>
 
