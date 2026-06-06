@@ -45,6 +45,14 @@ body{
 
 h1{
     margin-bottom:20px;
+    color:white;
+}
+
+#userEmail{
+
+    color:rgba(255,255,255,0.9);
+
+    margin-bottom:20px;
 }
 
 textarea{
@@ -62,6 +70,14 @@ textarea{
     resize:none;
 
     font-family:inherit;
+
+    display:block;
+
+    margin:0 auto;
+
+    width:100%;
+
+    max-width:500px;
 }
 
 .btn{
@@ -89,6 +105,12 @@ textarea{
     cursor:pointer;
 
     transition:all .25s ease;
+
+    display:block;
+
+    width:260px;
+
+    margin:30px auto 0 auto;
 }
 
 .btn:hover{
@@ -159,52 +181,6 @@ onAuthStateChanged(auth, (user) => {
 
 });
 
-window.sendRequest = async function(){
-
-if(!currentUser){
-    return;
-}
-
-const requestText =
-document.getElementById(
-    "request"
-).value;
-
-if(requestText.trim() === ""){
-    return;
-}
-
-try{
-
-await addDoc(
-collection(db, "requests"),
-{
-    userEmail: currentUser.email,
-    request: requestText,
-    createdAt: serverTimestamp()
-}
-);
-
-document.getElementById(
-    "status"
-).innerText =
-"Richiesta inviata!";
-
-document.getElementById(
-    "request"
-).value = "";
-
-}catch(error){
-
-document.getElementById(
-    "status"
-).innerText =
-error.message;
-
-}
-
-};
-
 document.getElementById("sendBtn")
 .addEventListener("click", sendRequest);
 
@@ -254,13 +230,19 @@ console.error(error);
 
 <div class="card">
 
-<h1>Le tue richieste</h1>
+<h1>✨ Le tue richieste</h1>
 
 <p id="userEmail">
 Caricamento...
 </p>
 
-<br>
+<p style="
+color:rgba(255,255,255,.75);
+margin-top:-5px;
+margin-bottom:25px;
+">
+Invia una richiesta personalizzata a Vincenzo
+</p>
 
 <textarea
 id="request"
