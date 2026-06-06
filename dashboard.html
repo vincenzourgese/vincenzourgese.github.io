@@ -49,7 +49,7 @@ import {
 getAuth,
 onAuthStateChanged
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";z
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
 getFirestore,
@@ -141,6 +141,49 @@ error.message;
 
 }
 
+};
+
+document.getElementById("sendBtn")
+.addEventListener("click", sendRequest);
+
+async function sendRequest(){
+
+if(!currentUser){
+    alert("Devi essere autenticato");
+    return;
+}
+
+const requestText =
+document.getElementById("request").value;
+
+if(requestText.trim() === ""){
+    alert("Scrivi una richiesta");
+    return;
+}
+
+try{
+
+await addDoc(
+collection(db, "requests"),
+{
+    userEmail: currentUser.email,
+    request: requestText,
+    createdAt: serverTimestamp()
+}
+);
+
+document.getElementById("status")
+.innerText = "Richiesta inviata!";
+
+}catch(error){
+
+document.getElementById("status")
+.innerText = error.message;
+
+console.error(error);
+
+}
+
 }
 
 </script>
@@ -171,8 +214,8 @@ resize:none;
 
 <br><br>
 
-<button onclick="sendRequest()">
-Invia richiesta
+<button id="sendBtn">
+    Invia richiesta
 </button>
 
 <p id="status"></p>
