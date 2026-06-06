@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ciao!</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Inter, Arial, sans-serif;
+    background:linear-gradient(
+        -45deg,
+        #4f46e5,
+        #7c3aed,
+        #06b6d4,
+        #2563eb
+    );
+    background-size:400% 400%;
+    animation:gradientMove 12s ease infinite;
+}
+
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.card{
+    position:relative;
+    z-index:2;
+
+    padding:60px 80px;
+
+    background:rgba(255,255,255,0.12);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.2);
+
+    border-radius:32px;
+
+    box-shadow:
+        0 8px 32px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+
+    text-align:center;
+
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+h1{
+    color:white;
+    font-size:clamp(4rem, 10vw, 8rem);
+    font-weight:800;
+    letter-spacing:-2px;
+
+    text-shadow:
+        0 0 30px rgba(255,255,255,0.3);
+}
+
+p{
+    margin-top:15px;
+    color:rgba(255,255,255,0.85);
+    font-size:1.2rem;
+}
+
+.particle{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    animation:float linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(110vh);
+    }
+    to{
+        transform:translateY(-120px);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Ciao! 👋</h1>
+    <p>Benvenuto nel mio piccolo angolo di Internet.</p>
+</div>
+
+<script>
+const NUM_PARTICLES = 40;
+
+for(let i=0;i<NUM_PARTICLES;i++){
+
+    const p = document.createElement('div');
+
+    p.className = 'particle';
+
+    const size = Math.random()*12 + 4;
+
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+
+    p.style.left = Math.random()*100 + 'vw';
+
+    p.style.animationDuration =
+        (10 + Math.random()*20) + 's';
+
+    p.style.animationDelay =
+        (-Math.random()*20) + 's';
+
+    document.body.appendChild(p);
+}
+</script>
+
+</body>
+</html>
